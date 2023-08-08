@@ -32,15 +32,21 @@ const TodoScreen = () => {
         updatedArr[index] = {...updatedArr[index],marked : !updatedArr[index].marked};
         setData(updatedArr);
     };
-    const editVal = (id) => {
+    const editVal = (id,newTodo) => {
     
         const index = data.findIndex((tem) => tem.id === id);
         const updatedArr = [...data];
-        console.log(updatedArr[index]);
+        // <TextInput
+        //         style = {styles.input}
+        //         value = {temp}
+        //         onChangeText={(newTodo) => setTemp(newTodo)}
+        //     />
+
         
-        updatedArr[index].text = temp;
+        updatedArr[index].text = newTodo;
         setData(updatedArr);
         setTemp('');
+        console.log(updatedArr[index]);
        
     }
     return (
@@ -59,20 +65,20 @@ const TodoScreen = () => {
                 data={data}
                 renderItem={(object) => {
                     return (
-                        <View>
-                        <Text> 
+                        <View style={styles.itemRefer}>
+        
                             <TouchableOpacity onPress={() => markVal(object.item.id)}>
                                 <Icon1 name = {object.item.marked ? "check-square" : "square"} size={21} color="grey" marginRight={5}/>
                             </TouchableOpacity>
 
                             <TouchableOpacity onPress={() => editVal(object.item.id)}>
-                            <Text style = {object.item.marked ? styles.markedText : styles.normalText}>{object.item.text}</Text>
+                            <TextInput style = {object.item.marked ? styles.markedText : styles.normalText} value={object.item.text} onChangeText={(newTodo) => editVal(object.item.id,newTodo)} />
                             </TouchableOpacity>
                            
                             <TouchableOpacity onPress={() => deleteVal(object.item.id)}>
                                 <Icon name="delete" size={24} color="red" marginLeft={5}/>
                             </TouchableOpacity> 
-                        </Text>
+        
                         </View>
                     )
                 }}
@@ -86,17 +92,9 @@ const styles = StyleSheet.create({
         fontSize : 30,
     },
     input : {
-        borderColor : "Black",
         height : 35,
         borderWidth: 1,
         margin : 5,
-        fontSize: 20
-    },
-    input1 : {
-        borderColor : "Red",
-        height : 35,
-        borderWidth: 1,
-        margin : 10,
         fontSize: 20
     },
     normalText: {
@@ -108,6 +106,10 @@ const styles = StyleSheet.create({
         marginLeft : 1,
         textDecorationLine: 'line-through'
     },
+    itemRefer : {
+        flexDirection : "row",
+        alignItems : "center"
+    }
 });
 
 export default TodoScreen;
